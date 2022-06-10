@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
-import '../date_time_converter.dart';
+import 'date_time_converter.dart';
 
 part 'subscription.freezed.dart';
 part 'subscription.g.dart';
