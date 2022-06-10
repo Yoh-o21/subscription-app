@@ -10,7 +10,7 @@ class Subscription with _$Subscription {
   factory Subscription(
       {required String id,
       required String name,
-      required String billingInterval,
+      required BillingInterval billingInterval,
       @DateTimeTimestampConverter() required DateTime createdAt,
       @DateTimeTimestampConverter() required DateTime startAt,
       @DateTimeTimestampConverter() required DateTime billingAt,
@@ -20,3 +20,5 @@ class Subscription with _$Subscription {
   factory Subscription.fromJson(Map<String, dynamic> json) =>
       _$SubscriptionFromJson(json);
 }
+
+enum BillingInterval { monthly, yearly }

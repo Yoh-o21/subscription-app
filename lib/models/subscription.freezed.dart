@@ -22,7 +22,7 @@ Subscription _$SubscriptionFromJson(Map<String, dynamic> json) {
 mixin _$Subscription {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String get billingInterval => throw _privateConstructorUsedError;
+  BillingInterval get billingInterval => throw _privateConstructorUsedError;
   @DateTimeTimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
   @DateTimeTimestampConverter()
@@ -46,7 +46,7 @@ abstract class $SubscriptionCopyWith<$Res> {
   $Res call(
       {String id,
       String name,
-      String billingInterval,
+      BillingInterval billingInterval,
       @DateTimeTimestampConverter() DateTime createdAt,
       @DateTimeTimestampConverter() DateTime startAt,
       @DateTimeTimestampConverter() DateTime billingAt,
@@ -85,7 +85,7 @@ class _$SubscriptionCopyWithImpl<$Res> implements $SubscriptionCopyWith<$Res> {
       billingInterval: billingInterval == freezed
           ? _value.billingInterval
           : billingInterval // ignore: cast_nullable_to_non_nullable
-              as String,
+              as BillingInterval,
       createdAt: createdAt == freezed
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -120,7 +120,7 @@ abstract class _$$_SubscriptionCopyWith<$Res>
   $Res call(
       {String id,
       String name,
-      String billingInterval,
+      BillingInterval billingInterval,
       @DateTimeTimestampConverter() DateTime createdAt,
       @DateTimeTimestampConverter() DateTime startAt,
       @DateTimeTimestampConverter() DateTime billingAt,
@@ -162,7 +162,7 @@ class __$$_SubscriptionCopyWithImpl<$Res>
       billingInterval: billingInterval == freezed
           ? _value.billingInterval
           : billingInterval // ignore: cast_nullable_to_non_nullable
-              as String,
+              as BillingInterval,
       createdAt: createdAt == freezed
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -208,7 +208,7 @@ class _$_Subscription with DiagnosticableTreeMixin implements _Subscription {
   @override
   final String name;
   @override
-  final String billingInterval;
+  final BillingInterval billingInterval;
   @override
   @DateTimeTimestampConverter()
   final DateTime createdAt;
@@ -288,7 +288,7 @@ abstract class _Subscription implements Subscription {
   factory _Subscription(
       {required final String id,
       required final String name,
-      required final String billingInterval,
+      required final BillingInterval billingInterval,
       @DateTimeTimestampConverter() required final DateTime createdAt,
       @DateTimeTimestampConverter() required final DateTime startAt,
       @DateTimeTimestampConverter() required final DateTime billingAt,
@@ -303,7 +303,7 @@ abstract class _Subscription implements Subscription {
   @override
   String get name => throw _privateConstructorUsedError;
   @override
-  String get billingInterval => throw _privateConstructorUsedError;
+  BillingInterval get billingInterval => throw _privateConstructorUsedError;
   @override
   @DateTimeTimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
