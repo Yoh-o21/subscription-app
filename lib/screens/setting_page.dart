@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class HomePage extends HookConsumerWidget {
-  const HomePage(this.user, {Key? key}) : super(key: key);
+class SettingPage extends HookConsumerWidget {
+  const SettingPage(this.user, {Key? key}) : super(key: key);
 
   final User user;
 
@@ -14,7 +14,7 @@ class HomePage extends HookConsumerWidget {
         title: Text('${user.email}'),
       ),
       body: const Center(
-        child: Text('This is Home Page'),
+        child: Text('This is Setting Page'),
       ),
     );
   }
