@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import '../models/subscription.dart';
 
@@ -10,14 +12,21 @@ const uuid = Uuid();
 
 final billingIntervalProvider =
     StateProvider<BillingInterval>((ref) => BillingInterval.monthly);
+StateProvider<DateTime> startAtProvider =
+    StateProvider((ref) => DateTime.now());
+StateProvider<DateTime> billingAtProvider =
+    StateProvider((ref) => DateTime.now());
 
 class AddPage extends HookConsumerWidget {
   AddPage(this.user, {Key? key}) : super(key: key);
   final User user;
   final nameController = TextEditingController();
+  final priceController = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final startAt = ref.watch(startAtProvider);
+    final billingAt = ref.watch(billingAtProvider);
     final billingInterval = ref.watch(billingIntervalProvider);
 
     return Scaffold(
@@ -31,7 +40,13 @@ class AddPage extends HookConsumerWidget {
               decoration: const InputDecoration(labelText: "サービス名"),
             ),
             const SizedBox(height: 8),
+            TextField(
+              controller: priceController,
+              decoration: const InputDecoration(labelText: "価格"),
+            ),
+            const SizedBox(height: 8),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Row(
                   children: <Widget>[
@@ -61,20 +76,61 @@ class AddPage extends HookConsumerWidget {
                 ),
               ],
             ),
+            Row(
+              children: [
+                Text(DateFormat('yyyy/MM/dd').format(startAt)),
+                TextButton(
+                    onPressed: () {
+                      DatePicker.showDatePicker(context,
+                          showTitleActions: true,
+                          minTime: DateTime(2000, 1, 1),
+                          maxTime: DateTime(2050, 12, 31),
+                          currentTime: startAt, onConfirm: (date) {
+                        ref.read(startAtProvider.notifier).state = date;
+                      }, locale: LocaleType.jp);
+                    },
+                    child: const Text(
+                      '追加日',
+                      style: TextStyle(color: Colors.blue),
+                    )),
+              ],
+            ),
+            Row(
+              children: [
+                Text(DateFormat('yyyy/MM/dd').format(billingAt)),
+                TextButton(
+                    onPressed: () {
+                      DatePicker.showDatePicker(context,
+                          showTitleActions: true,
+                          minTime: DateTime(2000, 1, 1),
+                          maxTime: DateTime(2050, 12, 31),
+                          currentTime: billingAt, onConfirm: (date) {
+                        ref.read(billingAtProvider.notifier).state = date;
+                      }, locale: LocaleType.jp);
+                    },
+                    child: const Text(
+                      '支払日',
+                      style: TextStyle(color: Colors.blue),
+                    )),
+              ],
+            ),
             ElevatedButton(
                 onPressed: () {
-                  // Subscription subscription = Subscription(id: uuid.v4(), name: nameController.text, billingInterval: intervalController.text, createdAt: createdAt, startAt: startAt, billingAt: billingAt, price: price, isSubscribed: isSubscribed)
+                  Subscription subscription = Subscription(
+                      id: uuid.v4(),
+                      name: nameController.text,
+                      price: int.parse(priceController.text),
+                      billingInterval: billingInterval,
+                      createdAt: DateTime.now(),
+                      startAt: startAt,
+                      billingAt: billingAt);
                   FirebaseFirestore.instance
                       .collection('users')
                       .doc(user.uid)
                       .collection('subscriptions')
-                      .add(
-                    {
-                      'name': nameController.text,
-                      'billingInterval': billingInterval.name
-                    },
-                  );
+                      .add(subscription.toJson());
                   nameController.clear();
+                  priceController.clear();
                   Navigator.pop(context);
                 },
                 child: const Text('追加')),
