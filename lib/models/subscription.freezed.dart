@@ -22,6 +22,7 @@ Subscription _$SubscriptionFromJson(Map<String, dynamic> json) {
 mixin _$Subscription {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  int get price => throw _privateConstructorUsedError;
   BillingInterval get billingInterval => throw _privateConstructorUsedError;
   @DateTimeTimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -29,7 +30,6 @@ mixin _$Subscription {
   DateTime get startAt => throw _privateConstructorUsedError;
   @DateTimeTimestampConverter()
   DateTime get billingAt => throw _privateConstructorUsedError;
-  int get price => throw _privateConstructorUsedError;
   bool get isSubscribed => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -46,11 +46,11 @@ abstract class $SubscriptionCopyWith<$Res> {
   $Res call(
       {String id,
       String name,
+      int price,
       BillingInterval billingInterval,
       @DateTimeTimestampConverter() DateTime createdAt,
       @DateTimeTimestampConverter() DateTime startAt,
       @DateTimeTimestampConverter() DateTime billingAt,
-      int price,
       bool isSubscribed});
 }
 
@@ -66,11 +66,11 @@ class _$SubscriptionCopyWithImpl<$Res> implements $SubscriptionCopyWith<$Res> {
   $Res call({
     Object? id = freezed,
     Object? name = freezed,
+    Object? price = freezed,
     Object? billingInterval = freezed,
     Object? createdAt = freezed,
     Object? startAt = freezed,
     Object? billingAt = freezed,
-    Object? price = freezed,
     Object? isSubscribed = freezed,
   }) {
     return _then(_value.copyWith(
@@ -82,6 +82,10 @@ class _$SubscriptionCopyWithImpl<$Res> implements $SubscriptionCopyWith<$Res> {
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      price: price == freezed
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as int,
       billingInterval: billingInterval == freezed
           ? _value.billingInterval
           : billingInterval // ignore: cast_nullable_to_non_nullable
@@ -98,10 +102,6 @@ class _$SubscriptionCopyWithImpl<$Res> implements $SubscriptionCopyWith<$Res> {
           ? _value.billingAt
           : billingAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      price: price == freezed
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as int,
       isSubscribed: isSubscribed == freezed
           ? _value.isSubscribed
           : isSubscribed // ignore: cast_nullable_to_non_nullable
@@ -120,11 +120,11 @@ abstract class _$$_SubscriptionCopyWith<$Res>
   $Res call(
       {String id,
       String name,
+      int price,
       BillingInterval billingInterval,
       @DateTimeTimestampConverter() DateTime createdAt,
       @DateTimeTimestampConverter() DateTime startAt,
       @DateTimeTimestampConverter() DateTime billingAt,
-      int price,
       bool isSubscribed});
 }
 
@@ -143,11 +143,11 @@ class __$$_SubscriptionCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = freezed,
+    Object? price = freezed,
     Object? billingInterval = freezed,
     Object? createdAt = freezed,
     Object? startAt = freezed,
     Object? billingAt = freezed,
-    Object? price = freezed,
     Object? isSubscribed = freezed,
   }) {
     return _then(_$_Subscription(
@@ -159,6 +159,10 @@ class __$$_SubscriptionCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      price: price == freezed
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as int,
       billingInterval: billingInterval == freezed
           ? _value.billingInterval
           : billingInterval // ignore: cast_nullable_to_non_nullable
@@ -175,10 +179,6 @@ class __$$_SubscriptionCopyWithImpl<$Res>
           ? _value.billingAt
           : billingAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      price: price == freezed
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as int,
       isSubscribed: isSubscribed == freezed
           ? _value.isSubscribed
           : isSubscribed // ignore: cast_nullable_to_non_nullable
@@ -193,12 +193,12 @@ class _$_Subscription with DiagnosticableTreeMixin implements _Subscription {
   _$_Subscription(
       {required this.id,
       required this.name,
+      required this.price,
       required this.billingInterval,
       @DateTimeTimestampConverter() required this.createdAt,
       @DateTimeTimestampConverter() required this.startAt,
       @DateTimeTimestampConverter() required this.billingAt,
-      required this.price,
-      required this.isSubscribed});
+      this.isSubscribed = true});
 
   factory _$_Subscription.fromJson(Map<String, dynamic> json) =>
       _$$_SubscriptionFromJson(json);
@@ -207,6 +207,8 @@ class _$_Subscription with DiagnosticableTreeMixin implements _Subscription {
   final String id;
   @override
   final String name;
+  @override
+  final int price;
   @override
   final BillingInterval billingInterval;
   @override
@@ -219,13 +221,12 @@ class _$_Subscription with DiagnosticableTreeMixin implements _Subscription {
   @DateTimeTimestampConverter()
   final DateTime billingAt;
   @override
-  final int price;
-  @override
+  @JsonKey()
   final bool isSubscribed;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Subscription(id: $id, name: $name, billingInterval: $billingInterval, createdAt: $createdAt, startAt: $startAt, billingAt: $billingAt, price: $price, isSubscribed: $isSubscribed)';
+    return 'Subscription(id: $id, name: $name, price: $price, billingInterval: $billingInterval, createdAt: $createdAt, startAt: $startAt, billingAt: $billingAt, isSubscribed: $isSubscribed)';
   }
 
   @override
@@ -235,11 +236,11 @@ class _$_Subscription with DiagnosticableTreeMixin implements _Subscription {
       ..add(DiagnosticsProperty('type', 'Subscription'))
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('price', price))
       ..add(DiagnosticsProperty('billingInterval', billingInterval))
       ..add(DiagnosticsProperty('createdAt', createdAt))
       ..add(DiagnosticsProperty('startAt', startAt))
       ..add(DiagnosticsProperty('billingAt', billingAt))
-      ..add(DiagnosticsProperty('price', price))
       ..add(DiagnosticsProperty('isSubscribed', isSubscribed));
   }
 
@@ -250,12 +251,12 @@ class _$_Subscription with DiagnosticableTreeMixin implements _Subscription {
             other is _$_Subscription &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.name, name) &&
+            const DeepCollectionEquality().equals(other.price, price) &&
             const DeepCollectionEquality()
                 .equals(other.billingInterval, billingInterval) &&
             const DeepCollectionEquality().equals(other.createdAt, createdAt) &&
             const DeepCollectionEquality().equals(other.startAt, startAt) &&
             const DeepCollectionEquality().equals(other.billingAt, billingAt) &&
-            const DeepCollectionEquality().equals(other.price, price) &&
             const DeepCollectionEquality()
                 .equals(other.isSubscribed, isSubscribed));
   }
@@ -266,11 +267,11 @@ class _$_Subscription with DiagnosticableTreeMixin implements _Subscription {
       runtimeType,
       const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(name),
+      const DeepCollectionEquality().hash(price),
       const DeepCollectionEquality().hash(billingInterval),
       const DeepCollectionEquality().hash(createdAt),
       const DeepCollectionEquality().hash(startAt),
       const DeepCollectionEquality().hash(billingAt),
-      const DeepCollectionEquality().hash(price),
       const DeepCollectionEquality().hash(isSubscribed));
 
   @JsonKey(ignore: true)
@@ -288,12 +289,12 @@ abstract class _Subscription implements Subscription {
   factory _Subscription(
       {required final String id,
       required final String name,
+      required final int price,
       required final BillingInterval billingInterval,
       @DateTimeTimestampConverter() required final DateTime createdAt,
       @DateTimeTimestampConverter() required final DateTime startAt,
       @DateTimeTimestampConverter() required final DateTime billingAt,
-      required final int price,
-      required final bool isSubscribed}) = _$_Subscription;
+      final bool isSubscribed}) = _$_Subscription;
 
   factory _Subscription.fromJson(Map<String, dynamic> json) =
       _$_Subscription.fromJson;
@@ -302,6 +303,8 @@ abstract class _Subscription implements Subscription {
   String get id => throw _privateConstructorUsedError;
   @override
   String get name => throw _privateConstructorUsedError;
+  @override
+  int get price => throw _privateConstructorUsedError;
   @override
   BillingInterval get billingInterval => throw _privateConstructorUsedError;
   @override
@@ -313,8 +316,6 @@ abstract class _Subscription implements Subscription {
   @override
   @DateTimeTimestampConverter()
   DateTime get billingAt => throw _privateConstructorUsedError;
-  @override
-  int get price => throw _privateConstructorUsedError;
   @override
   bool get isSubscribed => throw _privateConstructorUsedError;
   @override

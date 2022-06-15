@@ -10,6 +10,7 @@ _$_Subscription _$$_SubscriptionFromJson(Map<String, dynamic> json) =>
     _$_Subscription(
       id: json['id'] as String,
       name: json['name'] as String,
+      price: json['price'] as int,
       billingInterval:
           $enumDecode(_$BillingIntervalEnumMap, json['billingInterval']),
       createdAt: const DateTimeTimestampConverter()
@@ -18,21 +19,20 @@ _$_Subscription _$$_SubscriptionFromJson(Map<String, dynamic> json) =>
           .fromJson(json['startAt'] as Timestamp),
       billingAt: const DateTimeTimestampConverter()
           .fromJson(json['billingAt'] as Timestamp),
-      price: json['price'] as int,
-      isSubscribed: json['isSubscribed'] as bool,
+      isSubscribed: json['isSubscribed'] as bool? ?? true,
     );
 
 Map<String, dynamic> _$$_SubscriptionToJson(_$_Subscription instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'price': instance.price,
       'billingInterval': _$BillingIntervalEnumMap[instance.billingInterval],
       'createdAt':
           const DateTimeTimestampConverter().toJson(instance.createdAt),
       'startAt': const DateTimeTimestampConverter().toJson(instance.startAt),
       'billingAt':
           const DateTimeTimestampConverter().toJson(instance.billingAt),
-      'price': instance.price,
       'isSubscribed': instance.isSubscribed,
     };
 
