@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:subscription_app/screens/setting_page.dart';
+import 'package:subscription_app/pages/setting_page.dart';
 
 import 'add_page.dart';
 import 'home_page.dart';
@@ -18,12 +18,12 @@ class RootPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pageType = ref.watch(pageTypeProvider);
-    final _pages = [
+    final pages = [
       HomePage(user),
       SettingPage(user),
     ];
     return Scaffold(
-      body: _pages[pageType.index],
+      body: pages[pageType.index],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: pageType.index,
         onTap: (int selectIndex) {

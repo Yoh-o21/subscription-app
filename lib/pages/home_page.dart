@@ -10,11 +10,8 @@ class HomePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('${user.email}'),
-      ),
-      body: const Center(
-        child: Text('This is Home Page'),
+      body: Center(
+        child: Text("This is ${user.email}'s Home Page"),
       ),
     );
   }
