@@ -1,17 +1,15 @@
-import 'dart:ui';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:subscription_app/pages/root_page.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class SignPage extends StatefulWidget {
+  const SignPage({Key? key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<SignPage> createState() => _SignPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignPageState extends State<SignPage> {
   String newUserEmail = "";
   String newUserPassword = "";
   String infoText = "";
