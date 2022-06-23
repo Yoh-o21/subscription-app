@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:subscription_app/auth_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
@@ -18,8 +18,7 @@ StateProvider<DateTime> billingAtProvider =
     StateProvider((ref) => DateTime.now());
 
 class AddPage extends HookConsumerWidget {
-  AddPage(this.user, {Key? key}) : super(key: key);
-  final User user;
+  AddPage({Key? key}) : super(key: key);
   final nameController = TextEditingController();
   final priceController = TextEditingController();
 
@@ -28,6 +27,7 @@ class AddPage extends HookConsumerWidget {
     final startAt = ref.watch(startAtProvider);
     final billingAt = ref.watch(billingAtProvider);
     final billingInterval = ref.watch(billingIntervalProvider);
+    final user = ref.watch(firebaseAuthProvider).currentUser;
 
     return Scaffold(
       appBar: AppBar(),
@@ -126,7 +126,7 @@ class AddPage extends HookConsumerWidget {
                       billingAt: billingAt);
                   FirebaseFirestore.instance
                       .collection('users')
-                      .doc(user.uid)
+                      .doc(user!.uid)
                       .collection('subscriptions')
                       .add(subscription.toJson());
                   nameController.clear();
