@@ -1,10 +1,15 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as fbauth;
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:subscription_app/auth_provider.dart';
+import 'package:subscription_app/firebase_provider.dart';
+import 'package:subscription_app/models/user.dart';
 import 'package:subscription_app/pages/root_page.dart';
 
 final infoTextStateProvider = StateProvider.autoDispose((ref) => '');
+
+final userProvider = StateProvider((ref) {
+  return fbauth.FirebaseAuth.instance.currentUser;
+});
 
 class SignPage extends HookConsumerWidget {
   SignPage({Key? key}) : super(key: key);
@@ -14,7 +19,9 @@ class SignPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final auth = ref.watch(firebaseAuthProvider);
     final infoText = ref.watch(infoTextStateProvider);
+    final instance = ref.watch(firebaseFirestoreProvider);
 
     return Scaffold(
       body: Padding(
@@ -48,13 +55,12 @@ class SignPage extends HookConsumerWidget {
               child: ElevatedButton(
                 onPressed: () async {
                   try {
-                    final FirebaseAuth auth = FirebaseAuth.instance;
                     final result = await auth.signInWithEmailAndPassword(
                       email: newUserEmail,
                       password: newUserPassword,
                     );
 
-                    ref.read(userProvider.notifier).state = result.user;
+                    ref.watch(userProvider.notifier).state = result.user;
 
                     await Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) {
@@ -75,16 +81,25 @@ class SignPage extends HookConsumerWidget {
               child: ElevatedButton(
                 onPressed: () async {
                   try {
-                    final FirebaseAuth auth = FirebaseAuth.instance;
-                    final UserCredential result =
+                    final fbauth.UserCredential result =
                         await auth.createUserWithEmailAndPassword(
                       email: newUserEmail,
                       password: newUserPassword,
                     );
                     ref.read(userProvider.notifier).state = result.user;
-                    final User user = result.user!;
+                    String userId = result.user!.uid;
+                    User user = User(
+                        uid: userId,
+                        createdAt: DateTime.now(),
+                        updatedAt: DateTime.now());
+
+                    instance
+                        .collection('users')
+                        .doc(user.uid)
+                        .set(user.toJson());
+
                     ref.read(infoTextStateProvider.notifier).state =
-                        "登録成功: ${user.email}";
+                        "登録成功: ${result.user!.email}";
                   } catch (e) {
                     ref.read(infoTextStateProvider.notifier).state =
                         "登録失敗: ${e.toString()}";
