@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:subscription_app/auth_provider.dart';
+import 'package:subscription_app/firebase_provider.dart';
 import 'package:subscription_app/models/subscription.dart';
 
 class HomePage extends HookConsumerWidget {
