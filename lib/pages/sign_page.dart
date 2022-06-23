@@ -1,21 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:subscription_app/auth_provider.dart';
 import 'package:subscription_app/pages/root_page.dart';
 
-class SignPage extends StatefulWidget {
-  const SignPage({Key? key}) : super(key: key);
+final infoTextStateProvider = StateProvider.autoDispose((ref) => '');
 
-  @override
-  State<SignPage> createState() => _SignPageState();
-}
+class SignPage extends HookConsumerWidget {
+  SignPage({Key? key}) : super(key: key);
 
-class _SignPageState extends State<SignPage> {
   String newUserEmail = "";
   String newUserPassword = "";
-  String infoText = "";
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final infoText = ref.watch(infoTextStateProvider);
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(32),
@@ -26,12 +26,11 @@ class _SignPageState extends State<SignPage> {
             const Text('Sign In',
                 style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold)),
             const SizedBox(height: 24),
+            //入力フォーム
             TextFormField(
               decoration: const InputDecoration(labelText: "Email"),
               onChanged: (String value) {
-                setState(() {
-                  newUserEmail = value;
-                });
+                newUserEmail = value;
               },
             ),
             const SizedBox(height: 8),
@@ -39,12 +38,11 @@ class _SignPageState extends State<SignPage> {
               decoration: const InputDecoration(labelText: "Password"),
               obscureText: true,
               onChanged: (String value) {
-                setState(() {
-                  newUserPassword = value;
-                });
+                newUserPassword = value;
               },
             ),
             const SizedBox(height: 8),
+            //SignInボタン
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -56,20 +54,22 @@ class _SignPageState extends State<SignPage> {
                       password: newUserPassword,
                     );
 
+                    ref.read(userProvider.notifier).state = result.user;
+
                     await Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) {
-                        return RootPage(result.user!);
+                        return const RootPage();
                       }),
                     );
                   } catch (e) {
-                    setState(() {
-                      infoText = "ログイン失敗: ${e.toString()}";
-                    });
+                    ref.read(infoTextStateProvider.notifier).state =
+                        "ログイン失敗: ${e.toString()}";
                   }
                 },
                 child: const Text("Sign In"),
               ),
             ),
+            //SignUpボタン
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -81,21 +81,18 @@ class _SignPageState extends State<SignPage> {
                       email: newUserEmail,
                       password: newUserPassword,
                     );
-
+                    ref.read(userProvider.notifier).state = result.user;
                     final User user = result.user!;
-                    setState(() {
-                      infoText = "登録成功: ${user.email}";
-                    });
+                    ref.read(infoTextStateProvider.notifier).state =
+                        "登録成功: ${user.email}";
                   } catch (e) {
-                    setState(() {
-                      infoText = "登録失敗: ${e.toString()}";
-                    });
+                    ref.read(infoTextStateProvider.notifier).state =
+                        "登録失敗: ${e.toString()}";
                   }
                 },
                 child: const Text("Sign Up"),
               ),
             ),
-            //ログインボタン
 
             const SizedBox(height: 8),
             Text(infoText),
