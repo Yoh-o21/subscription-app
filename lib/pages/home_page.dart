@@ -1,17 +1,55 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:subscription_app/auth_provider.dart';
+import 'package:subscription_app/models/subscription.dart';
 
 class HomePage extends HookConsumerWidget {
-  const HomePage(this.user, {Key? key}) : super(key: key);
-
-  final User user;
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(firebaseAuthProvider).currentUser;
+    final snapshots = ref
+        .watch(firebaseFirestoreProvider)
+        .collection('users')
+        .doc(user?.uid)
+        .collection('subscriptions')
+        .snapshots();
+
     return Scaffold(
       body: Center(
-        child: Text("This is ${user.email}'s Home Page"),
+        child: StreamBuilder(
+          stream: snapshots,
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            //データを取得できなかった場合の返り値を指定
+            if (snapshot.hasError) {
+              return const Center(
+                child: Text('取得できませんでした'),
+              );
+            }
+            //取得中の返り値を指定
+            if (!snapshot.hasData) {
+              return const Center(
+                child: Text("Loading"),
+              );
+            }
+            //データを取得できた場合の返り値を指定
+            return ListView(
+              children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                Map<String, dynamic> data =
+                    document.data()! as Map<String, dynamic>;
+                Subscription subscription = Subscription.fromJson(data);
+                return Card(
+                  child: ListTile(
+                    title: Text(subscription.name),
+                  ),
+                );
+              }).toList(),
+            );
+          },
+        ),
       ),
     );
   }
