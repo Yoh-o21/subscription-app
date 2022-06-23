@@ -1,17 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SettingPage extends HookConsumerWidget {
-  const SettingPage(this.user, {Key? key}) : super(key: key);
-
-  final User user;
+  const SettingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
-        child: Text("This is ${user.email}'s Setting Page"),
+        child: Text("Setting Page"),
       ),
     );
   }

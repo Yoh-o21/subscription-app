@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:subscription_app/pages/setting_page.dart';
@@ -11,16 +10,14 @@ enum PageType { home, setting }
 final pageTypeProvider = StateProvider<PageType>((ref) => PageType.home);
 
 class RootPage extends HookConsumerWidget {
-  const RootPage(this.user, {Key? key}) : super(key: key);
-
-  final User user;
+  const RootPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pageType = ref.watch(pageTypeProvider);
     final pages = [
-      HomePage(user),
-      SettingPage(user),
+      const HomePage(),
+      const SettingPage(),
     ];
     return Scaffold(
       body: pages[pageType.index],
@@ -48,7 +45,7 @@ class RootPage extends HookConsumerWidget {
         onPressed: () async {
           await Navigator.of(context).push(
             MaterialPageRoute(builder: (context) {
-              return AddPage(user);
+              return AddPage();
             }),
           );
         },
