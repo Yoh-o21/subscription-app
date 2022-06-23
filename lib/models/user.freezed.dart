@@ -133,7 +133,7 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
 class _$_User with DiagnosticableTreeMixin implements _User {
   _$_User(
       {required this.uid,
-      required this.userName,
+      this.userName = '',
       @DateTimeTimestampConverter() required this.createdAt,
       @DateTimeTimestampConverter() required this.updatedAt});
 
@@ -142,6 +142,7 @@ class _$_User with DiagnosticableTreeMixin implements _User {
   @override
   final String uid;
   @override
+  @JsonKey()
   final String userName;
   @override
   @DateTimeTimestampConverter()
@@ -200,7 +201,7 @@ class _$_User with DiagnosticableTreeMixin implements _User {
 abstract class _User implements User {
   factory _User(
           {required final String uid,
-          required final String userName,
+          final String userName,
           @DateTimeTimestampConverter() required final DateTime createdAt,
           @DateTimeTimestampConverter() required final DateTime updatedAt}) =
       _$_User;

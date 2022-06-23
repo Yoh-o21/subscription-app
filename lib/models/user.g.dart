@@ -8,7 +8,7 @@ part of 'user.dart';
 
 _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       uid: json['uid'] as String,
-      userName: json['userName'] as String,
+      userName: json['userName'] as String? ?? '',
       createdAt: const DateTimeTimestampConverter()
           .fromJson(json['createdAt'] as Timestamp),
       updatedAt: const DateTimeTimestampConverter()
