@@ -9,7 +9,7 @@ enum PageType { home, setting }
 
 final pageTypeProvider = StateProvider<PageType>((ref) => PageType.home);
 
-class RootPage extends HookConsumerWidget {
+class RootPage extends ConsumerWidget {
   const RootPage({Key? key}) : super(key: key);
 
   @override

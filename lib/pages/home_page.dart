@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:subscription_app/firebase_provider.dart';
 import 'package:subscription_app/models/subscription.dart';
 
-class HomePage extends HookConsumerWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
@@ -23,19 +23,16 @@ class HomePage extends HookConsumerWidget {
           stream: snapshots,
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            //データを取得できなかった場合の返り値を指定
             if (snapshot.hasError) {
               return const Center(
                 child: Text('取得できませんでした'),
               );
             }
-            //取得中の返り値を指定
             if (!snapshot.hasData) {
               return const Center(
                 child: Text("Loading"),
               );
             }
-            //データを取得できた場合の返り値を指定
             return ListView(
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
                 Map<String, dynamic> data =
@@ -44,6 +41,8 @@ class HomePage extends HookConsumerWidget {
                 return Card(
                   child: ListTile(
                     title: Text(subscription.name),
+                    subtitle: Text('¥${subscription.price}'),
+                    trailing: Text('${subscription.createdAt}'),
                   ),
                 );
               }).toList(),

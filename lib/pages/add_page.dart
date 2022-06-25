@@ -16,7 +16,7 @@ StateProvider<DateTime> startAtProvider =
 StateProvider<DateTime> billingAtProvider =
     StateProvider((ref) => DateTime.now());
 
-class AddPage extends HookConsumerWidget {
+class AddPage extends ConsumerWidget {
   AddPage({Key? key}) : super(key: key);
   final nameController = TextEditingController();
   final priceController = TextEditingController();
