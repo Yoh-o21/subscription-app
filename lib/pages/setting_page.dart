@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:settings_ui/settings_ui.dart';
@@ -68,13 +69,29 @@ class SettingPage extends ConsumerWidget {
             SettingsSection(tiles: [
               SettingsTile(
                   onPressed: (context) {
-                    auth.signOut();
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return SignPage(); // 遷移先の画面widgetを指定
-                        },
-                      ),
+                    showCupertinoDialog(
+                      context: context,
+                      builder: (context) {
+                        return CupertinoAlertDialog(
+                          title: const Text('Are you sure to sign out?'),
+                          actions: [
+                            CupertinoDialogAction(
+                              child: const Text("Cancel"),
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                            CupertinoDialogAction(
+                              child: const Text("OK"),
+                              onPressed: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return SignPage();
+                                  },
+                                ),
+                              ),
+                            )
+                          ],
+                        );
+                      },
                     );
                   },
                   leading: const Icon(Icons.logout),
