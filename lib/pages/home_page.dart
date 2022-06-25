@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:subscription_app/date_time_extention.dart';
 import 'package:subscription_app/firebase_provider.dart';
 import 'package:subscription_app/models/subscription.dart';
 
@@ -18,6 +19,9 @@ class HomePage extends ConsumerWidget {
         .snapshots();
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home'),
+      ),
       body: Center(
         child: StreamBuilder(
           stream: snapshots,
@@ -42,7 +46,8 @@ class HomePage extends ConsumerWidget {
                   child: ListTile(
                     title: Text(subscription.name),
                     subtitle: Text('¥${subscription.price}'),
-                    trailing: Text('${subscription.createdAt}'),
+                    trailing: Text(
+                        subscription.createdAt.toFormattedString('yyyy年M月d日')),
                   ),
                 );
               }).toList(),
