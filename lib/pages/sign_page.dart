@@ -1,27 +1,22 @@
-import 'package:firebase_auth/firebase_auth.dart' as fbauth;
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:subscription_app/firebase_provider.dart';
-import 'package:subscription_app/models/user.dart';
 import 'package:subscription_app/pages/root_page.dart';
+import 'package:subscription_app/provider.dart';
+import 'package:subscription_app/user_provider.dart';
 
-final infoTextStateProvider = StateProvider.autoDispose((ref) => '');
+final userProvider =
+    StateProvider((ref) => ref.watch(firebaseAuthProvider).currentUser);
 
-final userProvider = StateProvider((ref) {
-  return fbauth.FirebaseAuth.instance.currentUser;
-});
-
-class SignPage extends HookConsumerWidget {
+class SignPage extends ConsumerWidget {
   SignPage({Key? key}) : super(key: key);
-
-  String newUserEmail = "";
-  String newUserPassword = "";
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final auth = ref.watch(firebaseAuthProvider);
     final infoText = ref.watch(infoTextStateProvider);
-    final instance = ref.watch(firebaseFirestoreProvider);
+    final email = ref.watch(emailStateProvider);
+    final password = ref.watch(emailStateProvider);
+    final userStateNotifier = ref.watch(userStateNotifierProvider.notifier);
 
     return Scaffold(
       body: Padding(
@@ -37,7 +32,7 @@ class SignPage extends HookConsumerWidget {
             TextFormField(
               decoration: const InputDecoration(labelText: "Email"),
               onChanged: (String value) {
-                newUserEmail = value;
+                ref.read(emailStateProvider.state).state = value;
               },
             ),
             const SizedBox(height: 8),
@@ -45,7 +40,7 @@ class SignPage extends HookConsumerWidget {
               decoration: const InputDecoration(labelText: "Password"),
               obscureText: true,
               onChanged: (String value) {
-                newUserPassword = value;
+                ref.read(passwordStateProvider.state).state = value;
               },
             ),
             const SizedBox(height: 8),
@@ -55,11 +50,8 @@ class SignPage extends HookConsumerWidget {
               child: ElevatedButton(
                 onPressed: () async {
                   try {
-                    final result = await auth.signInWithEmailAndPassword(
-                      email: newUserEmail,
-                      password: newUserPassword,
-                    );
-
+                    final result =
+                        await userStateNotifier.signIn(email, password);
                     ref.watch(userProvider.notifier).state = result.user;
 
                     await Navigator.of(context).pushReplacement(
@@ -81,22 +73,9 @@ class SignPage extends HookConsumerWidget {
               child: ElevatedButton(
                 onPressed: () async {
                   try {
-                    final fbauth.UserCredential result =
-                        await auth.createUserWithEmailAndPassword(
-                      email: newUserEmail,
-                      password: newUserPassword,
-                    );
+                    final result =
+                        await userStateNotifier.signUp(email, password);
                     ref.read(userProvider.notifier).state = result.user;
-                    String userId = result.user!.uid;
-                    User user = User(
-                        uid: userId,
-                        createdAt: DateTime.now(),
-                        updatedAt: DateTime.now());
-
-                    instance
-                        .collection('users')
-                        .doc(user.uid)
-                        .set(user.toJson());
 
                     ref.read(infoTextStateProvider.notifier).state =
                         "登録成功: ${result.user!.email}";
