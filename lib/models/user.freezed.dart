@@ -22,6 +22,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
 mixin _$User {
   String get uid => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
+  String get userImg => throw _privateConstructorUsedError;
   @DateTimeTimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
   @DateTimeTimestampConverter()
@@ -39,6 +40,7 @@ abstract class $UserCopyWith<$Res> {
   $Res call(
       {String uid,
       String userName,
+      String userImg,
       @DateTimeTimestampConverter() DateTime createdAt,
       @DateTimeTimestampConverter() DateTime updatedAt});
 }
@@ -55,6 +57,7 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
   $Res call({
     Object? uid = freezed,
     Object? userName = freezed,
+    Object? userImg = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -66,6 +69,10 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
       userName: userName == freezed
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
+              as String,
+      userImg: userImg == freezed
+          ? _value.userImg
+          : userImg // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: createdAt == freezed
           ? _value.createdAt
@@ -87,6 +94,7 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
   $Res call(
       {String uid,
       String userName,
+      String userImg,
       @DateTimeTimestampConverter() DateTime createdAt,
       @DateTimeTimestampConverter() DateTime updatedAt});
 }
@@ -104,6 +112,7 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
   $Res call({
     Object? uid = freezed,
     Object? userName = freezed,
+    Object? userImg = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -115,6 +124,10 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
       userName: userName == freezed
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
+              as String,
+      userImg: userImg == freezed
+          ? _value.userImg
+          : userImg // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: createdAt == freezed
           ? _value.createdAt
@@ -134,6 +147,7 @@ class _$_User with DiagnosticableTreeMixin implements _User {
   _$_User(
       {required this.uid,
       this.userName = '',
+      this.userImg = '',
       @DateTimeTimestampConverter() required this.createdAt,
       @DateTimeTimestampConverter() required this.updatedAt});
 
@@ -145,6 +159,9 @@ class _$_User with DiagnosticableTreeMixin implements _User {
   @JsonKey()
   final String userName;
   @override
+  @JsonKey()
+  final String userImg;
+  @override
   @DateTimeTimestampConverter()
   final DateTime createdAt;
   @override
@@ -153,7 +170,7 @@ class _$_User with DiagnosticableTreeMixin implements _User {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'User(uid: $uid, userName: $userName, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'User(uid: $uid, userName: $userName, userImg: $userImg, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -163,6 +180,7 @@ class _$_User with DiagnosticableTreeMixin implements _User {
       ..add(DiagnosticsProperty('type', 'User'))
       ..add(DiagnosticsProperty('uid', uid))
       ..add(DiagnosticsProperty('userName', userName))
+      ..add(DiagnosticsProperty('userImg', userImg))
       ..add(DiagnosticsProperty('createdAt', createdAt))
       ..add(DiagnosticsProperty('updatedAt', updatedAt));
   }
@@ -174,6 +192,7 @@ class _$_User with DiagnosticableTreeMixin implements _User {
             other is _$_User &&
             const DeepCollectionEquality().equals(other.uid, uid) &&
             const DeepCollectionEquality().equals(other.userName, userName) &&
+            const DeepCollectionEquality().equals(other.userImg, userImg) &&
             const DeepCollectionEquality().equals(other.createdAt, createdAt) &&
             const DeepCollectionEquality().equals(other.updatedAt, updatedAt));
   }
@@ -184,6 +203,7 @@ class _$_User with DiagnosticableTreeMixin implements _User {
       runtimeType,
       const DeepCollectionEquality().hash(uid),
       const DeepCollectionEquality().hash(userName),
+      const DeepCollectionEquality().hash(userImg),
       const DeepCollectionEquality().hash(createdAt),
       const DeepCollectionEquality().hash(updatedAt));
 
@@ -202,6 +222,7 @@ abstract class _User implements User {
   factory _User(
           {required final String uid,
           final String userName,
+          final String userImg,
           @DateTimeTimestampConverter() required final DateTime createdAt,
           @DateTimeTimestampConverter() required final DateTime updatedAt}) =
       _$_User;
@@ -212,6 +233,8 @@ abstract class _User implements User {
   String get uid => throw _privateConstructorUsedError;
   @override
   String get userName => throw _privateConstructorUsedError;
+  @override
+  String get userImg => throw _privateConstructorUsedError;
   @override
   @DateTimeTimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
