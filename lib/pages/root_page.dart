@@ -19,38 +19,41 @@ class RootPage extends ConsumerWidget {
       const HomePage(),
       const SettingPage(),
     ];
-    return Scaffold(
-      body: pages[pageType.index],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: pageType.index,
-        onTap: (int selectIndex) {
-          ref.read(pageTypeProvider.notifier).state =
-              PageType.values[selectIndex];
-        },
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'setting',
-          ),
-        ],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: pages[pageType.index],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: pageType.index,
+          onTap: (int selectIndex) {
+            ref.read(pageTypeProvider.notifier).state =
+                PageType.values[selectIndex];
+          },
+          selectedItemColor: Colors.black,
+          unselectedItemColor: Colors.grey,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'setting',
+            ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () async {
+            await Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) {
+                return AddPage();
+              }),
+            );
+          },
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () async {
-          await Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) {
-              return AddPage();
-            }),
-          );
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
