@@ -16,12 +16,10 @@ class HomePage extends ConsumerWidget {
         .collection('users')
         .doc(user?.uid)
         .collection('subscriptions')
+        .orderBy('billingAt')
         .snapshots();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-      ),
       body: Center(
         child: StreamBuilder(
           stream: snapshots,
@@ -47,7 +45,7 @@ class HomePage extends ConsumerWidget {
                     title: Text(subscription.name),
                     subtitle: Text('¥${subscription.price}'),
                     trailing: Text(
-                        subscription.createdAt.toFormattedString('yyyy年M月d日')),
+                        subscription.billingAt.toFormattedString('yyyy年M月d日')),
                   ),
                 );
               }).toList(),
