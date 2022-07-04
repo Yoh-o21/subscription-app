@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'package:subscription_app/firebase_provider.dart';
 import 'package:subscription_app/pages/sign_page.dart';
+import 'package:subscription_app/provider.dart';
 import 'package:subscription_app/theme_controller.dart';
 import 'package:subscription_app/user_provider.dart';
 
@@ -15,6 +17,7 @@ class SettingPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(isDarkModeProvider);
     final user = ref.watch(userStateNotifierProvider)!;
+    final auth = ref.watch(firebaseAuthProvider);
 
     return Scaffold(
         body: Column(
@@ -78,15 +81,19 @@ class SettingPage extends ConsumerWidget {
                               onPressed: () => Navigator.pop(context),
                             ),
                             CupertinoDialogAction(
-                              child: const Text("OK"),
-                              onPressed: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return const SignPage();
-                                  },
-                                ),
-                              ),
-                            )
+                                child: const Text("OK"),
+                                onPressed: () {
+                                  auth.signOut();
+                                  ref
+                                      .read(infoTextStateProvider.notifier)
+                                      .state = '';
+
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) {
+                                      return const SignPage();
+                                    },
+                                  ));
+                                })
                           ],
                         );
                       },
