@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:subscription_app/pages/sign_page.dart';
 import 'package:subscription_app/theme_controller.dart';
+import 'package:subscription_app/user_provider.dart';
 
 import 'edit_profile_page.dart';
 
@@ -13,7 +14,7 @@ class SettingPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(isDarkModeProvider);
-    final user = ref.watch(userProvider);
+    final user = ref.watch(userStateNotifierProvider)!;
 
     return Scaffold(
         body: Column(
@@ -21,11 +22,11 @@ class SettingPage extends ConsumerWidget {
         const SizedBox(height: 60),
         CircleAvatar(
           maxRadius: 60,
-          backgroundImage: NetworkImage(user.userImg == '' ? '' : user.userImg),
+          backgroundImage: NetworkImage(user.userImg),
         ),
         const SizedBox(height: 20),
         Text(
-          user.userName == '' ? 'Default' : user.userName,
+          user.userName,
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
         const SizedBox(height: 20),
