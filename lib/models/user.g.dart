@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: non_constant_identifier_names
-
 part of 'user.dart';
 
 // **************************************************************************
@@ -10,8 +8,8 @@ part of 'user.dart';
 
 _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       uid: json['uid'] as String,
-      userName: json['userName'] as String? ?? '',
-      userImg: json['userImg'] as String? ?? '',
+      userName: json['userName'] as String,
+      userImg: json['userImg'] as String,
       createdAt: const DateTimeTimestampConverter()
           .fromJson(json['createdAt'] as Timestamp),
       updatedAt: const DateTimeTimestampConverter()

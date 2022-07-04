@@ -9,8 +9,8 @@ part 'user.g.dart';
 class User with _$User {
   factory User({
     required String uid,
-    @Default('') String userName,
-    @Default('') String userImg,
+    required String userName,
+    required String userImg,
     @DateTimeTimestampConverter() required DateTime createdAt,
     @DateTimeTimestampConverter() required DateTime updatedAt,
   }) = _User;
