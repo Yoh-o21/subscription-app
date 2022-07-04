@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:subscription_app/firebase_provider.dart';
 import 'package:subscription_app/pages/root_page.dart';
 import 'package:subscription_app/provider.dart';
 import 'package:subscription_app/user_provider.dart';
 
-final userProvider =
-    StateProvider((ref) => ref.watch(firebaseAuthProvider).currentUser);
-
 class SignPage extends ConsumerWidget {
-  SignPage({Key? key}) : super(key: key);
+  const SignPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final infoText = ref.watch(infoTextStateProvider);
     final email = ref.watch(emailStateProvider);
-    final password = ref.watch(emailStateProvider);
-    final userStateNotifier = ref.watch(userStateNotifierProvider.notifier);
+    final password = ref.watch(passwordStateProvider);
 
     return Scaffold(
       body: Padding(
@@ -32,7 +27,7 @@ class SignPage extends ConsumerWidget {
             TextFormField(
               decoration: const InputDecoration(labelText: "Email"),
               onChanged: (String value) {
-                ref.read(emailStateProvider.state).state = value;
+                ref.read(emailStateProvider.notifier).state = value;
               },
             ),
             const SizedBox(height: 8),
@@ -40,7 +35,7 @@ class SignPage extends ConsumerWidget {
               decoration: const InputDecoration(labelText: "Password"),
               obscureText: true,
               onChanged: (String value) {
-                ref.read(passwordStateProvider.state).state = value;
+                ref.read(passwordStateProvider.notifier).state = value;
               },
             ),
             const SizedBox(height: 8),
@@ -50,11 +45,11 @@ class SignPage extends ConsumerWidget {
               child: ElevatedButton(
                 onPressed: () async {
                   try {
-                    final result =
-                        await userStateNotifier.signIn(email, password);
-                    ref.watch(userProvider.notifier).state = result.user;
+                    ref
+                        .read(userStateNotifierProvider.notifier)
+                        .signIn(email, password);
 
-                    await Navigator.of(context).pushReplacement(
+                    await Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) {
                         return const RootPage();
                       }),
@@ -73,12 +68,11 @@ class SignPage extends ConsumerWidget {
               child: ElevatedButton(
                 onPressed: () async {
                   try {
-                    final result =
-                        await userStateNotifier.signUp(email, password);
-                    ref.read(userProvider.notifier).state = result.user;
+                    ref
+                        .read(userStateNotifierProvider.notifier)
+                        .signUp(email, password);
 
-                    ref.read(infoTextStateProvider.notifier).state =
-                        "登録成功: ${result.user!.email}";
+                    ref.read(infoTextStateProvider.notifier).state = "登録成功";
                   } catch (e) {
                     ref.read(infoTextStateProvider.notifier).state =
                         "登録失敗: ${e.toString()}";
